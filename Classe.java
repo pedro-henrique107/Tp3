@@ -450,11 +450,11 @@ class Musica {
 		this.year = MyIO.readInt();
 	}
 	
-	public void imprimir() {
+	public void imprimir(int i) {
 		
 		int j;
 		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy"); 
-		
+		MyIO.print("["+i+"]");
 		System.out.print(this.id + " ## [");
 		for (j = 0; j < (this.artists.length - 1); j++) {
 			System.out.print(this.artists[j] + ", ");
@@ -462,6 +462,18 @@ class Musica {
 		System.out.print(this.artists[j] + "] ## " + this.name + " ## ");
 		System.out.print(formato.format(this.release_date));
 		System.out.println(" ## " + this.acousticness + " ## " + this.danceability +  " ## " + this.instrumentalness + " ## " + this.liveness + " ## " + this.loudness + " ## " + this.speechiness + " ## " + this.energy + " ## " + this.duration_ms);
+	}
+	public void imprimir() {
+		
+		int j;
+		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy"); 
+		
+		
+		for (j = 0; j < (this.artists.length - 1); j++) {
+			System.out.print(this.artists[j] + ", ");
+		}
+		System.out.print(this.name);
+		
 	}
 }
 class Fila{
@@ -474,48 +486,48 @@ class Fila{
     }
   
     public void adicionaMusicaNaFila(Musica pesquisado){
-      if(quantidadeMusicasFila >= 5){
-        //remove a primeira musica da fila e libera uma posicção no final da fila
-        //RemoverUmaMusicaDaFila();
-        for(int i=0; i<4; i++){
-        filaMusicas[i]=filaMusicas[i+1];
-        }
-        quantidadeMusicasFila--;
-        //insere no fim da fila
-        filaMusicas[quantidadeMusicasFila] = pesquisado;
-        quantidadeMusicasFila ++;
-      }else{
-        filaMusicas[quantidadeMusicasFila] = pesquisado;
-        quantidadeMusicasFila ++;
-      }
-    } 
-    public String RemoverUmaMusicaDaFila(){
-      String nomeMusicaRemovida = filaMusicas[0].getName();
-      for(int i=0; i<4; i++){
-        filaMusicas[i]=filaMusicas[i+1];
-      }
-      quantidadeMusicasFila--;
-      return nomeMusicaRemovida;
-    }
-  
-    public void CalcularMedia(){
-      double soma=0;
-	  int decimal,resultado=0;
-      for(int i=0;i<quantidadeMusicasFila;i++){
-        resultado += filaMusicas[i].getDuration_ms();
-      }
-	  soma=resultado;
-	  soma/=quantidadeMusicasFila;
-	 
-      decimal = (int)Math.round((soma - (int)soma) * 100);
-       resultado = resultado/quantidadeMusicasFila;
-	   if (decimal>=50)
-	   {
-		   resultado++;
-	   }
-	  MyIO.println(resultado);
+		if(quantidadeMusicasFila >= 5){
+		  //remove a primeira musica da fila e libera uma posicção no final da fila
+		  //RemoverUmaMusicaDaFila();
+		  for(int i=0; i<4; i++){
+		  filaMusicas[i]=filaMusicas[i+1];
+		  }
+		  quantidadeMusicasFila--;
+		  //insere no fim da fila
+		  filaMusicas[quantidadeMusicasFila] = pesquisado;
+		  quantidadeMusicasFila ++;
+		}else{
+		  filaMusicas[quantidadeMusicasFila] = pesquisado;
+		  quantidadeMusicasFila ++;
+		}
+	  } 
+	  public String RemoverUmaMusicaDaFila(){
+		String nomeMusicaRemovida = filaMusicas[0].getName();
+		for(int i=0; i<4; i++){
+		  filaMusicas[i]=filaMusicas[i+1];
+		}
+		quantidadeMusicasFila--;
+		return nomeMusicaRemovida;
+	  }
 	
-    }
+	  public void CalcularMedia(){
+		double soma=0;
+		int decimal,resultado=0;
+		for(int i=0;i<quantidadeMusicasFila;i++){
+		  resultado += filaMusicas[i].getDuration_ms();
+		}
+		soma=resultado;
+		soma/=quantidadeMusicasFila;
+	   
+		decimal = (int)Math.round((soma - (int)soma) * 100);
+		 resultado = resultado/quantidadeMusicasFila;
+		 if (decimal>=50)
+		 {
+			 resultado++;
+		 }
+		MyIO.println(resultado);
+	  
+	  }
   }
 public class Classe {
 
@@ -553,9 +565,9 @@ public class Classe {
 
 
 
-
-	public static void main(String[] args) {
-		String id;
+public static void pedro()
+{
+	String id;
         int p;
 		int numTotalMusicas = contarTotalMusicas();
     Fila filaDeMusicas = new Fila();
@@ -597,4 +609,208 @@ public class Classe {
          }
     }
   }
+  static class Lista{
+
+ public String[] TodosId = new String[1000];
+ public int quantidade; 
+ public String[] Aux = new String[1000];
+ public Lista()
+ {
+	quantidade=0;
+ }
+
+public void adicionarMusicaNaLista(String id)
+{
+   TodosId[quantidade]=id;
+   Aux[quantidade]=id;
+   quantidade++;
+   
 }
+public void adicionarMusicaNoComeco(String id)
+{
+	int c=1;
+	quantidade++;
+	for (int i=0;i<quantidade;i++)
+	{
+       TodosId[c]=Aux[i];
+	   c++;
+	}
+	TodosId[0]=id;
+	for (int i=0;i<quantidade;i++)
+	{
+        Aux[i]=TodosId[i];
+	}
+
+}
+public void adicionarMusicaNoFinal(String id)
+{
+	
+	TodosId[quantidade]=id;
+	Aux[quantidade]=id;
+	quantidade++;
+
+}
+public String removerEmTalPosicao(int posicao)
+{
+	String id=TodosId[posicao];
+ for (int i=posicao;i<quantidade-1;i++)
+ {
+	 TodosId[i]=TodosId[i+1];
+	 Aux[i]=Aux[i+1];
+ }
+ quantidade--;
+
+ return id;
+}
+public String removerNoInicio()
+{
+	String id=TodosId[0];
+	quantidade--;
+	for (int i=0;i<quantidade;i++)
+	{
+      TodosId[i]=TodosId[i+1];
+	  Aux[i]=Aux[i+1];
+	}
+	return id;
+}
+public String removerNoFinal()
+{
+	quantidade--;
+  String id=TodosId[quantidade];
+  
+  
+  return id;
+}
+public void adicionarEmTalPosicao(String id,int posicao)
+{
+ quantidade++;
+ for (int i=posicao;i<quantidade;i++)
+ {
+	 TodosId[i+1]=Aux[i];
+	
+ }
+ TodosId[posicao]=id;
+ for (int i=0;i<quantidade;i++)
+ {
+	 Aux[i]=TodosId[i];
+ }
+}
+  }
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+	public static void main(String[] args) {
+	//pedro();
+	String nome_musica;
+
+	int numTotalMusicas = contarTotalMusicas();
+	Lista  ListaDeMuSICA= new Lista();
+	Musica[] listaMusicas = new Musica[numTotalMusicas];
+	Musica pesquisado;
+	//int contadorDeMusica=0;
+	//String StringComOnomeDeDasMusicasRemovida;
+	String[] TodosId=new String[100];
+	PesquisaSequencial pesquisa = new PesquisaSequencial();
+	String id;
+	int p;
+	lerMusicas(listaMusicas);
+	
+	id = MyIO.readLine();
+	while (!id.equals("FIM")) {
+		ListaDeMuSICA.adicionarMusicaNaLista(id);
+		//pesquisado = pesquisa.buscarId(listaMusicas, id);
+		
+	//pesquisado.imprimir(i);
+	
+		id = MyIO.readLine();
+	}
+	String instrucao;
+	p=MyIO.readInt();
+	for (int k=0;k<p;k++)
+	{
+        instrucao=MyIO.readLine();
+		if (instrucao.charAt(0)=='I' && instrucao.charAt(1)=='I')
+		{
+			String novoString="";//novo string = id
+			for (int v=3;v<25;v++)
+				  {
+					  novoString+=instrucao.charAt(v);
+				  }
+				  ListaDeMuSICA.adicionarMusicaNoComeco(novoString);
+		}
+		else if(instrucao.charAt(0)=='I' && instrucao.charAt(1)=='F')
+		{
+			String novoString="";//novo string = id
+			for (int v=3;v<25;v++)
+				  {
+					  novoString+=instrucao.charAt(v);
+				  }
+				  ListaDeMuSICA.adicionarMusicaNoFinal(novoString);
+		}
+		else if(instrucao.charAt(0)=='R' && instrucao.charAt(1)=='*')
+		{
+			String novoString="";//novo string = id
+         char myChar = instrucao.charAt(3);
+        int myInt = Character.getNumericValue(myChar);  
+		char pedro = instrucao.charAt(4);
+        int pedro1 = Character.getNumericValue(pedro);  
+		myInt=(myInt*10)+pedro1; 
+        pesquisado = pesquisa.buscarId(listaMusicas,ListaDeMuSICA.removerEmTalPosicao(myInt));
+		nome_musica=pesquisado.getName();
+		MyIO.println("(R) "+nome_musica);
+		}
+		else if(instrucao.charAt(0)=='R' && instrucao.charAt(1)=='I')
+		{
+			pesquisado = pesquisa.buscarId(listaMusicas,ListaDeMuSICA.removerNoInicio());
+			nome_musica=pesquisado.getName();
+			MyIO.println("(R) "+nome_musica);
+		}
+		else if(instrucao.charAt(0)=='R' && instrucao.charAt(1)=='F')
+		{
+			pesquisado = pesquisa.buscarId(listaMusicas,ListaDeMuSICA.removerNoFinal());
+			nome_musica=pesquisado.getName();
+			MyIO.println("(R) "+nome_musica);
+		}
+		else if(instrucao.charAt(0)=='I' && instrucao.charAt(1)=='*')
+		{
+          
+			char myChar = instrucao.charAt(3);
+			int myInt = Character.getNumericValue(myChar);  
+			char pedro = instrucao.charAt(4);
+			int pedro1 = Character.getNumericValue(pedro);  
+			myInt=(myInt*10)+pedro1;
+			String novoString="";
+			for (int v=6;v<28;v++)
+			{
+				novoString+=instrucao.charAt(v);
+			}
+			ListaDeMuSICA.adicionarEmTalPosicao(novoString,myInt);
+
+		}
+	
+		
+	}
+	int x=ListaDeMuSICA.quantidade;
+	for (int i=0;i<x;i++)
+	{
+		
+		id=ListaDeMuSICA.TodosId[i];
+		pesquisado = pesquisa.buscarId(listaMusicas, id);
+		pesquisado.imprimir(i);
+	}
+}
+  }
+
